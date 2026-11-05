@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EASYCOMEX | Comercio Exterior</title>
+<style>
+:root{--navy:#10243b;--blue:#1769aa;--cyan:#23b6c9;--bg:#f3f6fa;--line:#e4eaf1;--muted:#667085}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#1d2939}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.layout{min-height:100vh;display:grid;grid-template-columns:250px 1fr}
+.sidebar{background:var(--navy);color:white;padding:25px 16px}
+.brand{font-size:22px;font-weight:bold;padding:10px;margin-bottom:25px}
+.brand small{display:block;font-size:10px;color:#a9bfd2;margin-top:5px}
+.nav-label{font-size:10px;color:#8da5bc;margin:15px 10px}
+.nav{display:grid;gap:7px}
+.nav button{border:0;background:transparent;color:#c4d2df;padding:13px;text-align:left;border-radius:8px}
+.nav button:hover,.nav button.active{background:#29445e;color:white}
+main{min-width:0}
+.topbar{height:70px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+.profile{border:0;background:transparent;display:flex;align-items:center;gap:10px}
+.avatar{width:36px;height:36px;border-radius:50%;background:#d9eff7;color:#1769aa;display:grid;place-items:center;font-weight:bold}
+.content{padding:28px;max-width:1400px;margin:auto}
+.section{display:none}
+.section.active{display:block}
+.page-head{margin-bottom:22px}
+.page-head h1{margin:5px 0;font-size:27px}
+.page-head p,.hint{color:var(--muted);font-size:13px}
+.panel,.stat{background:white;border:1px solid var(--line);border-radius:12px;padding:21px;margin-bottom:18px}
+.panel h2{font-size:17px;margin-top:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat strong{display:block;font-size:24px;margin-top:8px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;font-weight:bold}
+.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #d7e0e9;border-radius:7px}
+.btn{border:0;border-radius:8px;padding:11px 15px;font-weight:bold}
+.btn-primary{background:var(--blue);color:white}
+.btn-light{background:#edf4fa;color:var(--blue)}
+.form-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+.notice{background:#fff8e8;border:1px solid #f1dfb1;color:#795a15;padding:13px;border-radius:8px;font-size:12px;line-height:1.5;margin-bottom:15px}
+.results{background:#f6f9fc;padding:15px;border-radius:9px}
+.result-line{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+.result-total{display:flex;justify-content:space-between;background:var(--navy);color:white;padding:15px;border-radius:8px;margin-top:12px}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);font-size:13px}
+th{background:#f7f9fc}
+.table-wrap{overflow-x:auto}
+.doc-list{display:grid;gap:10px}
+.doc-item{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);padding:13px;border-radius:9px}
+.doc-info{flex:1;min-width:180px}
+.doc-info p{font-size:12px;color:var(--muted)}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+.product-card,.info-card{background:white;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+.product-card img{width:100%;height:150px;object-fit:contain}
+.product-card h3{font-size:16px}
+.product-price{font-size:18px;font-weight:bold;color:var(--blue)}
+.info-card h3{margin-top:0}
+.info-card p{font-size:13px;line-height:1.6;color:var(--muted)}
+.toast{display:none;position:fixed;bottom:20px;right:20px;background:var(--navy);color:white;padding:14px;border-radius:8px}
+@media(max-width:850px){
+ .layout{grid-template-columns:1fr}
+ .nav{grid-template-columns:repeat(2,1fr)}
+ .content{padding:16px}
+ .topbar{padding:0 16px}
+ .stats{grid-template-columns:1fr}
+}
+@media(max-width:550px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+ <div class="brand">EASYCOMEX<small>COMERCIO EXTERIOR</small></div>
+ <div class="nav-label">MENÚ PRINCIPAL</div>
+ <nav class="nav">
+  <button class="active" data-page="inicio">⌂ Inicio</button>
+  <button data-page="calculadora">▦ Calculadora de costos</button>
+  <button data-page="documentos">▤ Documentos</button>
+  <button data-page="proveedores">♙ Proveedores</button>
+  <button data-page="usuario">● Mi usuario</button>
+  <button data-page="publicaciones">▣ Publicaciones</button>
+  <button data-page="tributaria">§ Infórmate</button>
+  <button data-page="ayuda">? Ayuda y asesores</button>
+ </nav>
+</aside>
+
+<main>
+<header class="topbar">
+ <span>EASYCOMEX / <b id="crumb">Inicio</b></span>
+ <button class="profile" onclick="showPage('usuario')">
+  <span class="avatar" id="top-avatar">EC</span>
+  <span id="top-user-name">Mi cuenta</span>
+ </button>
+</header>
+
+<div class="content">
+
+<!-- INICIO -->
+<section class="section active" id="inicio">
+ <div class="page-head">
+  <h1>Bienvenido a EASYCOMEX</h1>
+  <p>Administra tus operaciones de comercio exterior desde un solo lugar.</p>
+  <button class="btn btn-primary" onclick="showPage('calculadora')">Calcular importación</button>
+ </div>
+ <div class="stats">
+  <div class="stat">Proveedores registrados<strong id="stat-proveedores">0</strong></div>
+  <div class="stat">Documentos requeridos<strong id="stat-documentos">6</strong></div>
+  <div class="stat">Último CIF calculado<strong id="stat-cif">$0</strong></div>
+ </div>
+ <div class="panel">
+  <h2>Bienvenido a tu plataforma</h2>
+  <p>Utiliza el menú para gestionar costos, documentos, proveedores y publicaciones.</p>
+ </div>
+</section>
+
+<!-- CALCULADORA -->
+<section class="section" id="calculadora">
+ <div class="page-head"><h1>Calculadora de costos</h1><p>Estimación de costos de importación.</p></div>
+ <div class="notice">Los cálculos son orientativos. Verifica la subpartida, el arancel y el IVA aplicable con la DIAN o un asesor aduanero.</div>
+ <div class="panel">
+  <h2>Datos de importación</h2>
+  <form id="calc-form">
+   <div class="form-grid">
+    <div class="field"><label>Valor FOB (USD)</label><input id="fob" type="number" min="0" step="0.01" value="1000" required></div>
+    <div class="field"><label>Seguro (USD)</label><input id="seguro" type="number" min="0" step="0.01" value="30" required></div>
+    <div class="field"><label>Flete (USD)</label><input id="flete" type="number" min="0" step="0.01" value="120" required></div>
+    <div class="field"><label>Otros gastos (USD)</label><input id="otros" type="number" min="0" step="0.01" value="0" required></div>
+    <div class="field"><label>TRM (COP por USD)</label><input id="trm" type="number" min="0.01" step="0.01" value="4000" required></div>
+    <div class="field"><label>Arancel (%)</label><input id="arancel" type="number" min="0" max="100" step="0.01" value="10" required></div>
+   </div>
+   <div class="form-actions">
+    <button type="reset" class="btn btn-light">Restablecer</button>
+    <button class="btn btn-primary">Calcular</button>
+   </div>
+  </form>
+ </div>
+ <div class="panel">
+  <h2>Resultado de liquidación</h2>
+  <div class="results">
+   <div class="result-line"><span>Valor CIF (USD)</span><strong id="r-cif-usd">US$ 0</strong></div>
+   <div class="result-line"><span>Valor CIF en pesos</span><strong id="r-cif-cop">$0</strong></div>
+   <div class="result-line"><span>Arancel estimado</span><strong id="r-arancel">$0</strong></div>
+   <div class="result-line"><span>Base estimada para IVA</span><strong id="r-base">$0</strong></div>
+   <div class="result-line"><span>IVA (19%)</span><strong id="r-iva">$0</strong></div>
+   <div class="result-total"><span>Arancel + IVA</span><strong id="r-tributos">$0</strong></div>
+   <div class="result-total"><span>CIF + arancel + IVA</span><strong id="r-total">$0</strong></div>
+  </div>
+  <p class="hint">No incluye bodegaje, agencia de aduanas ni otros gastos no ingresados.</p>
+ </div>
+</section>
+
+<!-- DOCUMENTOS -->
+<section class="section" id="documentos">
+ <div class="page-head"><h1>Documentos</h1><p>Control de documentos para tus operaciones.</p></div>
+ <div class="notice">Puedes seleccionar archivos para identificarlos. Esta versión no los sube a un servidor.</div>
+ <div class="panel">
+  <h2>Lista de documentos</h2>
+  <p id="doc-progress" class="hint">0 de 6 listos</p>
+  <div class="doc-list" id="doc-list"></div>
+ </div>
+ <div class="panel">
+  <h2>Consulta de inventario</h2>
+  <form id="inventory-form">
+   <div class="form-grid">
+    <div class="field"><label>Referencia o producto</label><input id="inv-ref" required></div>
+    <div class="field"><label>Cantidad</label><input id="inv-cantidad" type="number" min="0" required></div>
+    <div class="field full"><label>Observaciones</label><input id="inv-notas"></div>
+   </div>
+   <div class="form-actions"><button class="btn btn-primary" id="inv-add">Agregar producto</button></div>
+  </form>
+  <div class="table-wrap"><table><thead><tr><th>Producto</th><th>Cantidad</th><th>Observaciones</th><th>Acción</th></tr></thead><tbody id="inv-table"></tbody></table></div>
+ </div>
+</section>
+
+<!-- PROVEEDORES -->
+<section class="section" id="proveedores">
+ <div class="page-head"><h1>Proveedores</h1><p>Registra y administra empresas proveedoras.</p></div>
+ <div class="panel">
+  <h2>Registrar proveedor</h2>
+  <form id="supplier-form">
+   <input type="hidden" id="supplier-id">
+   <div class="form-grid">
+    <div class="field"><label>Nombre de la empresa</label><input id="empresa" required></div>
+    <div class="field"><label>País</label><input id="pais" required></div>
+    <div class="field"><label>Ciudad</label><input id="ciudad" required></div>
+    <div class="field"><label>Dirección</label><input id="direccion" required></div>
+    <div class="field"><label>Teléfono</label><input id="telefono" required></div>
+    <div class="field"><label>Correo</label><input id="correo" type="email" required></div>
+   </div>
+   <div class="form-actions"><button class="btn btn-primary">Guardar proveedor</button></div>
+  </form>
+ </div>
+ <div class="panel">
+  <h2>Proveedores registrados</h2>
+  <input id="supplier-search" placeholder="Buscar proveedor...">
+  <div class="table-wrap"><table><thead><tr><th>Empresa</th><th>País / ciudad</th><th>Contacto</th><th>Acciones</th></tr></thead><tbody id="supplier-table"></tbody></table></div>
+ </div>
+</section>
+
+<!-- USUARIO -->
+<section class="section" id="usuario">
+ <div class="page-head"><h1>Mi usuario</h1><p>Administra los datos de tu cuenta.</p></div>
+ <div class="panel">
+  <h2>Información personal</h2>
+  <form id="user-form">
+   <div class="form-grid">
+    <div class="field"><label>Nombre completo</label><input id="user-name" required></div>
+    <div class="field"><label>Correo electrónico</label><input id="user-email" type="email" required></div>
+    <div class="field"><label>Empresa</label><input id="user-company"></div>
+    <div class="field"><label>Tipo de usuario</label>
+     <select id="user-role"><option>Cliente / Importador</option><option>Proveedor</option><option>Asesor</option><option>Administrador</option></select>
+    </div>
+   </div>
+   <div class="form-actions"><button class="btn btn-primary">Guardar perfil</button></div>
+  </form>
+ </div>
+ <div class="notice">Perfil demostrativo guardado en este navegador. No crea cuentas ni contraseñas.</div>
+</section>
+
+<!-- PUBLICACIONES -->
+<section class="section" id="publicaciones">
+ <div class="page-head"><h1>Publicaciones de proveedores</h1><p>Publica productos y ofertas comerciales.</p></div>
+ <div class="notice">Las publicaciones se guardan localmente en este navegador. Para compartirlas entre usuarios se requiere servidor y base de datos.</div>
+ <div class="panel">
+  <h2>Publicar producto</h2>
+  <form id="post-form">
+   <div class="form-grid">
+    <div class="field"><label>Nombre del producto</label><input id="post-product" required></div>
+    <div class="field"><label>Nombre del proveedor</label><input id="post-supplier" required></div>
+    <div class="field"><label>País de origen</label><input id="post-country" required></div>
+    <div class="field"><label>Precio (USD)</label><input id="post-price" type="number" min="0" step="0.01" required></div>
+    <div class="field"><label>Correo de contacto</label><input id="post-email" type="email" required></div>
+    <div class="field"><label>Fotografía del producto</label><input id="post-image" type="file" accept="image/*"><span class="hint">Máximo 1 MB.</span></div>
+    <div class="field full"><label>Descripción</label><textarea id="post-description" rows="3" required></textarea></div>
+   </div>
+   <div class="form-actions"><button class="btn btn-primary">Publicar producto</button></div>
+  </form>
+ </div>
+ <div class="panel"><h2>Productos publicados</h2><div id="posts-list" class="product-grid"></div></div>
+</section>
+
+<!-- INFORMACION TRIBUTARIA -->
+<section class="section" id="tributaria">
+ <div class="page-head"><h1>Información tributaria / Infórmate</h1><p>Conceptos básicos del comercio exterior colombiano.</p></div>
+ <div class="notice">Información educativa general. Las tarifas dependen de la mercancía, subpartida, origen y normas vigentes. Verifica cada operación con la DIAN o un profesional.</div>
+ <div class="panel">
+  <div class="info-card"><h3>IVA en importaciones</h3><p>La tarifa general del IVA en Colombia es del 19%, aunque algunos bienes tienen tratamientos especiales o tarifas diferentes.</p></div>
+  <div class="info-card"><h3>Arancel</h3><p>Gravamen aplicado a determinadas mercancías importadas. Su tarifa depende de la subpartida arancelaria, el origen y los acuerdos comerciales aplicables.</p></div>
+  <div class="info-card"><h3>Valor FOB</h3><p>En el Incoterm FOB, el vendedor entrega la mercancía a bordo del buque en el puerto convenido.</p></div>
+  <div class="info-card"><h3>Valor CIF</h3><p>En el Incoterm CIF, el precio incluye costo, seguro y flete hasta el puerto de destino convenido.</p></div>
+  <div class="info-card"><h3>Documentos de importación</h3><p>Según la operación pueden requerirse factura comercial, documento de transporte, lista de empaque, declaración de importación y vistos buenos.</p></div>
+ </div>
+ <div class="panel">
+  <h2>Fuentes oficiales</h2>
+  <p><a href="https://www.dian.gov.co/" target="_blank">DIAN - Impuestos y Aduanas Nacionales</a></p>
+  <p><a href="https://www.mincit.gov.co/" target="_blank">Ministerio de Comercio, Industria y Turismo</a></p>
+  <p><a href="https://www.vuce.gov.co/" target="_blank">VUCE - Ventanilla Única de Comercio Exterior</a></p>
+ </div>
+</section>
+
+<!-- AYUDA -->
+<section class="section" id="ayuda">
+ <div class="page-head"><h1>Ayuda y asesores</h1><p>Envía tus dudas sobre comercio exterior.</p></div>
+ <div class="panel">
+  <h2>Solicitar asesoría</h2>
+  <form id="help-form">
+   <div class="form-grid">
+    <div class="field"><label>Nombre</label><input id="help-name" required></div>
+    <div class="field"><label>Correo electrónico</label><input id="help-email" type="email" required></div>
+    <div class="field full"><label>Tipo de consulta</label>
+     <select id="help-topic" required><option value="">Selecciona</option><option>Importaciones</option><option>Exportaciones</option><option>Impuestos y aranceles</option><option>Documentación</option><option>Proveedores</option><option>Soporte de la plataforma</option><option>Otra consulta</option></select>
+    </div>
+    <div class="field full"><label>Describe tu consulta</label><textarea id="help-message" rows="5" required></textarea></div>
+   </div>
+   <div class="form-actions"><button class="btn btn-primary">Enviar consulta por correo</button></div>
+  </form>
+ </div>
+ <div class="notice">Para activar el contacto, configura el correo del asesor en la constante ASESOR_EMAIL del archivo app.js. El formulario abrirá tu aplicación de correo.</div>
+</section>
+
+</div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
